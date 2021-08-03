@@ -36,6 +36,26 @@ schema:
           description: "The name of the service to register in service discovery"
           minLength: 3
           maxLength: 24
+        db_name:
+          type: string
+          description: "database_name"
+          minLength: 1
+          maxLength: 64
+        db_user:
+          type: string
+          description: "database_user"
+          minLength: 1
+          maxLength: 16
+        db_password:
+          type: string
+          description: "database_password"
+          minLength: 1
+          maxLength: 41
+        db_allocated_storage:
+          type: string
+          description: "5"
+          minLength: 5
+          maxLength: 16384
       required:
         - service_discovery_name
 

@@ -96,7 +96,36 @@ Resources:
         - Key: Name
           Value: !FindInMap ['EnvironmentNameConfig', 'Environment', 'Name']
 
+  DBEC2SecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Open database for access
+      SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: '3306'
+        ToPort: '3306'
+        SourceSecurityGroupName: '{{environment.outputs.ContainerSecurityGroup}}'
+
+  MasterDB:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      DBName: '{{service_instance.inputs.db_name}}'
+      AllocatedStorage: '{{service_instance.inputs.db_allocated_storage}}'
+      DBInstanceClass: 'db.m5.large'
+      Engine: MySQL
+      MasterUsername: '{{service_instance.inputs.db_user}}'
+      MasterUserPassword: '{{service_instance.inputs.db_password}}'
+      MultiAZ: 'false'
+      Tags:
+      - Key: Name
+        Value: Master Database
+      VPCSecurityGroups: !GetAtt [DBEC2SecurityGroup, GroupId]
+    DeletionPolicy: Snapshot
+
 Outputs:
   ServiceDiscovery:
     Description: The registered service discovery Service Id
     Value: !Ref DiscoveryService
+  DatabaseInstance:
+    Description: The database instance
+    Value: !Ref MasterDB
