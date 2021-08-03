@@ -1,3 +1,5 @@
+! It is a fork of a part of the original repo: https://github.com/aws-samples/aws-proton-sample-templates
+
 # AWS Proton Sample Microservices Using Amazon ECS and AWS Fargate
 
 This directory contains a sample AWS Proton Environment and Service templates for a set of Amazon ECS based microservices using service discovery running on AWS Fargate, as well as sample specs for creating Proton Environments and Services using the templates. All resources deployed are tagged.
