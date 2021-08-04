@@ -96,6 +96,14 @@ Resources:
         - Key: Name
           Value: !FindInMap ['EnvironmentNameConfig', 'Environment', 'Name']
 
+  DBSubnetGroup:
+    Type: AWS::RDS::DBSubnetGroup
+    Properties:
+      SubnetIds:
+      - '{{environment.outputs.PrivateSubnetOne}}'
+      - '{{environment.outputs.PrivateSubnetTwo}}'
+      DBSubnetGroupDescription: 'This is a group of subnets for database setup.'
+
   DBEC2SecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
@@ -104,11 +112,12 @@ Resources:
       - IpProtocol: tcp
         FromPort: '3306'
         ToPort: '3306'
-        SourceSecurityGroupName: '{{environment.outputs.ContainerSecurityGroup}}'
+      VpcId: '{{environment.outputs.VpcId}}'
 
   MasterDB:
     Type: AWS::RDS::DBInstance
     Properties:
+      DBSubnetGroupName: !Ref DBSubnetGroup
       DBName: '{{service_instance.inputs.db_name}}'
       AllocatedStorage: '{{service_instance.inputs.db_allocated_storage}}'
       DBInstanceClass: 'db.m5.large'
@@ -119,7 +128,8 @@ Resources:
       Tags:
       - Key: Name
         Value: Master Database
-      VPCSecurityGroups: !GetAtt [DBEC2SecurityGroup, GroupId]
+      VPCSecurityGroups: 
+      - !GetAtt DBEC2SecurityGroup.GroupId
     DeletionPolicy: Snapshot
 
 Outputs:
@@ -129,3 +139,4 @@ Outputs:
   DatabaseInstance:
     Description: The database instance
     Value: !Ref MasterDB
+

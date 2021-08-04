@@ -53,9 +53,7 @@ schema:
           maxLength: 41
         db_allocated_storage:
           type: string
-          description: "5"
-          minLength: 5
-          maxLength: 16384
+          description: "database_storage_in_GB"
       required:
         - service_discovery_name
 
@@ -81,3 +79,4 @@ schema:
           description: "The environment account ids for service instances using cross account environment, separated by ,"
           default: ""
           maxLength: 200
+
