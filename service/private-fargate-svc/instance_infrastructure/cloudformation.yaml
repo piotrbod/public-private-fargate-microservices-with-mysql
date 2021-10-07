@@ -120,7 +120,7 @@ Resources:
       DBSubnetGroupName: !Ref DBSubnetGroup
       DBName: '{{service_instance.inputs.db_name}}'
       AllocatedStorage: '{{service_instance.inputs.db_allocated_storage}}'
-      DBInstanceClass: 'db.m5.large'
+      DBInstanceClass: '{{service_instance.inputs.db_size}}'
       Engine: MySQL
       MasterUsername: '{{service_instance.inputs.db_user}}'
       MasterUserPassword: '{{service_instance.inputs.db_password}}'

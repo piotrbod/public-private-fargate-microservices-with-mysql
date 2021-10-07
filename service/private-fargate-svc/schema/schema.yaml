@@ -36,6 +36,11 @@ schema:
           description: "The name of the service to register in service discovery"
           minLength: 3
           maxLength: 24
+        db_size:
+          type: string
+          description: "database_size"
+          default: "t3.medium"
+          enum: ["db.t3.medium", "db.m5.large"]
         db_name:
           type: string
           description: "database_name"
